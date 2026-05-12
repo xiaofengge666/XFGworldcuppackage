@@ -12,16 +12,8 @@ body { min-height:100vh; background:#09111f; font-family:'Noto Sans SC',sans-ser
 
 .hero-wrap { position:relative; width:100%; }
 .hero-wrap img { width:100%; display:block; }
-.hero-wrap::after {
-  content:''; position:absolute; bottom:0; left:0; right:0; height:50%;
-  background:linear-gradient(transparent,#09111f); pointer-events:none;
-}
-.hero-logo {
-  position:absolute; top:12px; left:14px; z-index:2;
-  display:flex; align-items:center; gap:7px;
-  background:rgba(0,0,0,0.5); border:1px solid rgba(255,130,0,0.5);
-  border-radius:24px; padding:6px 16px;
-}
+.hero-wrap::after { content:''; position:absolute; bottom:0; left:0; right:0; height:50%; background:linear-gradient(transparent,#09111f); pointer-events:none; }
+.hero-logo { position:absolute; top:12px; left:14px; z-index:2; display:flex; align-items:center; gap:7px; background:rgba(0,0,0,0.5); border:1px solid rgba(255,130,0,0.5); border-radius:24px; padding:6px 16px; }
 .hero-logo span { font-family:Anton,sans-serif; font-size:16px; color:#FF8200; letter-spacing:1px; }
 .dot { width:7px; height:7px; border-radius:50%; background:#FF8200; animation:blink 1.8s infinite; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
@@ -126,8 +118,8 @@ body { min-height:100vh; background:#09111f; font-family:'Noto Sans SC',sans-ser
 </div>
 
 <script>
-var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw7rQcFgKcD9H02SxdDVJhMsmZeJ9VfRzlTUwWT4EM3ZnDpob3DSMBvk81qNAkBr1At/exec';
-var TG_URL = 'https://t.me/XiaoFengGe_Bot';
+var MAKE_URL   = 'https://hook.eu1.make.com/h9zdvr94sdoa4mf81po8sj7us17gmmm0';
+var TG_URL     = 'https://t.me/XiaoFengGe_Bot';
 
 function getMYTime() {
   var now = new Date();
@@ -157,18 +149,17 @@ function handleSubmit() {
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> 提交中...';
 
-  var payload = JSON.stringify({
+  var payload = {
     name: name,
     telegram_id: telegram,
     phone: '+60' + phone,
     timestamp: getMYTime()
-  });
+  };
 
-  fetch(SCRIPT_URL, {
+  fetch(MAKE_URL, {
     method: 'POST',
-    mode: 'no-cors',
     headers: { 'Content-Type': 'application/json' },
-    body: payload
+    body: JSON.stringify(payload)
   }).then(function() {
     document.getElementById('successMsg').style.display = 'flex';
     btn.innerHTML = '✅ 已提交';
@@ -181,31 +172,6 @@ function handleSubmit() {
 }
 
 document.addEventListener('keydown', function(e) { if (e.key === 'Enter') handleSubmit(); });
-  
 </script>
 </body>
 </html>
-<script>
-async function submitForm() {
-
-  const data = {
-    name: document.getElementById("name").value,
-    phone: document.getElementById("phone").value,
-
-  };
-
-  await fetch("https://hook.eu1.make.com/h9zdvr94sdoa4mf81po8sj7us17gmmm0", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  });
-
-  alert("Submitted!");
-}
-  
-</script>
-<button onclick="submitForm()">
-Submit
-</button>
