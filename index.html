@@ -118,8 +118,10 @@ body { min-height:100vh; background:#09111f; font-family:'Noto Sans SC',sans-ser
 </div>
 
 <script>
-var MAKE_URL   = 'https://hook.eu1.make.com/gbnay2rmkc2o9qf5os427vvw6jzidnu0';
-var TG_URL     = 'https://t.me/XiaoFengGe_Bot';
+var MAKE_URL    = 'https://hook.eu1.make.com/gbnay2rmkc2o9qf5os427vvw6jzidnu0';
+var BOT_WEBHOOK = 'https://xiaofenggevip.up.railway.app/webhook';
+var BOT_SECRET  = 'Spread@9989';
+var TG_URL      = 'https://t.me/XiaoFengGe_Bot';
 
 function getMYTime() {
   var now = new Date();
@@ -156,19 +158,30 @@ function handleSubmit() {
     timestamp: getMYTime()
   };
 
+// 同时送到 Make.com（Google Sheet）和 Bot Webhook
+Promise.all([
   fetch(MAKE_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
-  }).then(function() {
-    document.getElementById('successMsg').style.display = 'flex';
-    btn.innerHTML = '✅ 已提交';
-    setTimeout(function() { window.location.href = TG_URL; }, 2000);
-  }).catch(function() {
-    showErr('网络错误，请稍后重试。');
-    btn.disabled = false;
-    btn.innerHTML = '🚀 立即提交 SUBMIT';
-  });
+  }),
+  fetch(BOT_WEBHOOK, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Secret': BOT_SECRET
+    },
+    body: JSON.stringify(payload)
+  }).catch(function(e) { console.warn('Bot webhook failed:', e); })
+]).then(function() {
+  document.getElementById('successMsg').style.display = 'flex';
+  btn.innerHTML = '✅ 已提交';
+  setTimeout(function() { window.location.href = TG_URL; }, 2000);
+}).catch(function() {
+  showErr('网络错误，请稍后重试。');
+  btn.disabled = false;
+  btn.innerHTML = '🚀 立即提交 SUBMIT';
+});
 }
 
 document.addEventListener('keydown', function(e) { if (e.key === 'Enter') handleSubmit(); });
