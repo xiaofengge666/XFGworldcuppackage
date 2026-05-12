@@ -184,3 +184,26 @@ document.addEventListener('keydown', function(e) { if (e.key === 'Enter') handle
 </script>
 </body>
 </html>
+<script>
+async function submitForm() {
+
+  const data = {
+    name: document.getElementById("name").value,
+    phone: document.getElementById("phone").value,
+
+  };
+
+  await fetch("https://hook.eu1.make.com/h9zdvr94sdoa4mf81po8sj7us17gmmm0", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+
+  alert("Submitted!");
+}
+</script>
+<button onclick="submitForm()">
+Submit
+</button>
