@@ -118,82 +118,16 @@ body { min-height:100vh; background:#09111f; font-family:'Noto Sans SC',sans-ser
 </div>
 
 <script>
-var MAKE_URL   = 'https://hook.eu2.make.com/tpckymzjd1pdnkeq8ckkn1ovfwymliym';
-var TG_URL     = 'https://t.me/XiaoFengGe_Bot';
-
-function getMYTime() {
-  var now = new Date();
-  var t = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur' }));
-  function p(n) { return String(n).padStart(2,'0'); }
-  return p(t.getDate())+'/'+p(t.getMonth()+1)+'/'+t.getFullYear()+' '+p(t.getHours())+':'+p(t.getMinutes())+':'+p(t.getSeconds())+' (GMT+8)';
-}
-
-function showErr(msg) {
-  document.getElementById('errTxt').textContent = msg;
-  document.getElementById('errorMsg').style.display = 'flex';
-}
-
-function handleSubmit() {
-  var name     = document.getElementById('fname').value.trim();
-  var telegram = document.getElementById('ftelegram').value.trim();
-  var phone    = document.getElementById('fphone').value.trim();
-  var btn      = document.getElementById('submitBtn');
-
-  document.getElementById('successMsg').style.display = 'none';
-  document.getElementById('errorMsg').style.display   = 'none';
-
-  if (!name)                      { showErr('请填写您的姓名！'); return; }
-  if (!telegram)                  { showErr('请填写您的 Telegram ID！'); return; }
-  if (!phone || phone.length < 8) { showErr('请填写有效的手机号码！'); return; }
-
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> 提交中...';
-
-  var payload = {
-    name: name,
-    telegram_id: telegram,
-    phone: '+60' + phone,
-    timestamp: getMYTime()
-  };
-
-  fetch(MAKE_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  }).then(function() {
-    document.getElementById('successMsg').style.display = 'flex';
-    btn.innerHTML = '✅ 已提交';
-    setTimeout(function() { window.location.href = TG_URL; }, 2000);
-  }).catch(function() {
-    showErr('网络错误，请稍后重试。');
-    btn.disabled = false;
-    btn.innerHTML = '🚀 立即提交 SUBMIT';
-  });
-}
-
-document.addEventListener('keydown', function(e) { if (e.key === 'Enter') handleSubmit(); });
-</script>
-</body>
-</html>
-<!--
-=========================================================
-index.html 修改片段 — 加入 Tracking ID + Deep Link
-=========================================================
-只修改 <script> 标签里面那一段，其他 HTML/CSS 完全不动。
-把整段 <script>...</script> 替换成下面这段：
--->
-
-<script>
 var MAKE_URL   = 'https://hook.eu1.make.com/gbnay2rmkc2o9qf5os427vvw6jzidnu0';
 var TG_URL     = 'https://t.me/XiaoFengGe_Bot';
-
+ 
 function getMYTime() {
   var now = new Date();
   var t = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur' }));
   function p(n) { return String(n).padStart(2,'0'); }
   return p(t.getDate())+'/'+p(t.getMonth()+1)+'/'+t.getFullYear()+' '+p(t.getHours())+':'+p(t.getMinutes())+':'+p(t.getSeconds())+' (GMT+8)';
 }
-
+ 
 // ★ 新增：生成唯一追踪 ID（例如 xfg_a8x3k9pq）
 function generateTrackingId() {
   var chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -203,31 +137,31 @@ function generateTrackingId() {
   }
   return id;
 }
-
+ 
 function showErr(msg) {
   document.getElementById('errTxt').textContent = msg;
   document.getElementById('errorMsg').style.display = 'flex';
 }
-
+ 
 function handleSubmit() {
   var name     = document.getElementById('fname').value.trim();
   var telegram = document.getElementById('ftelegram').value.trim();
   var phone    = document.getElementById('fphone').value.trim();
   var btn      = document.getElementById('submitBtn');
-
+ 
   document.getElementById('successMsg').style.display = 'none';
   document.getElementById('errorMsg').style.display   = 'none';
-
+ 
   if (!name)                      { showErr('请填写您的姓名！'); return; }
   if (!telegram)                  { showErr('请填写您的 Telegram ID！'); return; }
   if (!phone || phone.length < 8) { showErr('请填写有效的手机号码！'); return; }
-
+ 
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> 提交中...';
-
+ 
   // ★ 生成唯一追踪 ID
   var trackingId = generateTrackingId();
-
+ 
   var payload = {
     name: name,
     telegram_id: telegram,
@@ -236,7 +170,7 @@ function handleSubmit() {
     tracking_id: trackingId,        // ★ 新增
     bot_connected: 'No'             // ★ 新增（默认未连接）
   };
-
+ 
   fetch(MAKE_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -254,6 +188,6 @@ function handleSubmit() {
     btn.innerHTML = '🚀 立即提交 SUBMIT';
   });
 }
-
+ 
 document.addEventListener('keydown', function(e) { if (e.key === 'Enter') handleSubmit(); });
 </script>
